@@ -1,3 +1,4 @@
+import { ThreadService } from './../services/thread.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThreadSelectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private threadService: ThreadService) { }
 
   ngOnInit() {
+    this.threadService.loadUserThreads()
+      .subscribe(console.log);
   }
 
 }
