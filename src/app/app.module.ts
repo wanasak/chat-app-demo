@@ -1,3 +1,4 @@
+import { INITAL_APPLICATION_STATE } from './store/application-state';
 import { StoreModule } from '@ngrx/store';
 import { ThreadService } from './services/thread.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,7 +21,10 @@ import { MessageListComponent } from './message-list/message-list.component';
     MessageListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    // StoreModule.forRoot(, {
+    //   initialState: INITAL_APPLICATION_STATE
+    // })
   ],
   providers: [ThreadService],
   bootstrap: [AppComponent]
