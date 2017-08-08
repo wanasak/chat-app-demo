@@ -1,3 +1,4 @@
+import { LoadUserThreadAction } from './../store/actions';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from './../store/application-state';
 import { ThreadService } from './../services/thread.service';
@@ -17,6 +18,9 @@ export class ThreadSelectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.threadService.loadUserThreads();
+    this.threadService.loadUserThreads()
+      .subscribe(allUserData => {
+        this.store.dispatch(new LoadUserThreadAction(allUserData));
+      });
   }
 }

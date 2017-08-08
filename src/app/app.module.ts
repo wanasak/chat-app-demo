@@ -1,3 +1,4 @@
+import { StoreModule } from '@ngrx/store';
 import { ThreadService } from './services/thread.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
