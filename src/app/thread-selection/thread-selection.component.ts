@@ -1,3 +1,5 @@
+import { Store } from '@ngrx/store';
+import { ApplicationState } from './../store/application-state';
 import { ThreadService } from './../services/thread.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,12 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./thread-selection.component.css']
 })
 export class ThreadSelectionComponent implements OnInit {
-
-  constructor(private threadService: ThreadService) { }
-
-  ngOnInit() {
-    this.threadService.loadUserThreads()
-      .subscribe(console.log);
+  constructor(
+    private threadService: ThreadService,
+    private store: Store<ApplicationState>
+  ) {
+    store.subscribe(console.log);
   }
 
+  ngOnInit() {
+    this.threadService.loadUserThreads();
+  }
 }
