@@ -29,9 +29,7 @@ export function apiGetUserThreads(app: Application) {
     const participants = _.uniq(
       participantIds.map(id => dbParticipants[id])
     );
-    console.log('dbParticipants:' + JSON.stringify(dbParticipants));
-    console.log('participants:' + participants);
-    console.log('messages:' + messages);
+
     const response: AllUserData = {
       participants,
       messages,

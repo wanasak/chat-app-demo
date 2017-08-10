@@ -4,7 +4,7 @@ export interface UiState {
 }
 
 export const INITIAL_UI_STATE: UiState = {
-    // prefer to use undefined instead of nul
+    // prefer to use undefined instead of null
     userId: undefined,
     currentThreadId: undefined
 };

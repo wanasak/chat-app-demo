@@ -1,3 +1,4 @@
+import {HttpModule} from '@angular/http';
 import { LOAD_USER_THREADS_ACTION, LoadUserThreadAction } from './store/actions';
 import { INITAL_APPLICATION_STATE, ApplicationState } from './store/application-state';
 import { StoreModule, Action } from '@ngrx/store';
@@ -14,7 +15,7 @@ import { MessageListComponent } from './message-list/message-list.component';
 
 import * as _ from 'lodash';
 
-function storeReducer(state: ApplicationState, action: Action): ApplicationState {
+export function storeReducer(state: ApplicationState, action: Action): ApplicationState {
   switch (action.type) {
     case LOAD_USER_THREADS_ACTION:
       return handleLoadUserThreadsAction(state, <any>action);
@@ -47,6 +48,7 @@ function handleLoadUserThreadsAction(state: ApplicationState, action: LoadUserTh
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE)
   ],
   providers: [ThreadService],

@@ -4,7 +4,8 @@ import { apiGetUserThreads } from './api/apiGetUserThreads';
 import { apiSaveNewMessage } from './api/apiSaveNewMessage';
 import { apiMessageNotificationsPerUser } from './api/apiMessageNotificationsPerUser';
 import { apiUpdateThread } from './api/apiMarkThreadAsReadByUser';
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
+import * as bodyParser from 'body-parser';
 
 const app: Application = express();
 
