@@ -1,7 +1,7 @@
 import { ThreadSummaryVM } from './thread-summary.vm';
 import { Thread } from './../../../shared/model/thread';
 import { Observable } from 'rxjs/Observable';
-import { LoadUserThreadsAction } from './../store/actions';
+import { LoadUserThreadsAction, ThreadSelectedAction } from './../store/actions';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from './../store/application-state';
 import { ThreadService } from './../services/thread.service';
@@ -38,4 +38,9 @@ export class ThreadSelectionComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new LoadUserThreadsAction());
   }
+
+  onThreadSelected(threadId: number) {
+    this.store.dispatch(new ThreadSelectedAction(threadId));
+  }
+
 }
