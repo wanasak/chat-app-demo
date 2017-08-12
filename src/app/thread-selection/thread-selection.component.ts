@@ -41,12 +41,14 @@ export class ThreadSelectionComponent implements OnInit {
         const names = _.keys(thread.participants)
           .map(participantId => state.storeData.participants[participantId].name);
 
-        const lastMessageId = _.last(thread.messageIds);
+        const lastMessageId = _.last(thread.messageIds),
+          lastMessage = state.storeData.messages[lastMessageId];
 
         return {
           id: thread.id,
           participantNames: _.join(names, ','),
-          lastMessageText: state.storeData.messages[lastMessageId].text
+          lastMessageText: lastMessage.text,
+          timestamp: lastMessage.timestamp
         };
 
       });
