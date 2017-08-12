@@ -9,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
 
 import 'rxjs/add/operator/skip';
 import * as _ from 'lodash';
-import { mapStoreToUsername } from './mapStoreToUsername';
-import { mapStateToUnreadMessageCounter } from './mapStateToUnreadMessageCounter';
+import { userNameSelector } from './userNameSelector';
+import { unreadMessageCounterSelector } from './unreadMessageCounterSelector';
 import { stateToThreadSummariesSelector } from './stateToThreadSummariesSelector';
 
 @Component({
@@ -29,10 +29,10 @@ export class ThreadSelectionComponent implements OnInit {
   ) {
     this.userName$ = store
       .skip(1)
-      .map(mapStoreToUsername);
+      .map(userNameSelector);
     this.unreadMessagesCounter$ = store
       .skip(1)
-      .map(mapStateToUnreadMessageCounter);
+      .map(unreadMessageCounterSelector);
     this.threadSummaries$ = store.select(stateToThreadSummariesSelector);
   }
 
