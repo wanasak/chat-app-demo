@@ -1,3 +1,4 @@
+import { ThreadSummaryVM } from './thread-summary.vm';
 import { Thread } from './../../../shared/model/thread';
 import { Observable } from 'rxjs/Observable';
 import { LoadUserThreadAction } from './../store/actions';
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 
 import 'rxjs/add/operator/skip';
 import * as _ from 'lodash';
+import { mapStoreToUsername } from './mapStoreToUsername';
+import { mapStateToUnreadMessageCounter } from './mapStateToUnreadMessageCounter';
 
 @Component({
   selector: 'app-thread-selection',
@@ -17,6 +20,7 @@ import * as _ from 'lodash';
 export class ThreadSelectionComponent implements OnInit {
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
+  threadSummaries$: Observable<ThreadSummaryVM[]>;
 
   constructor(
     private threadService: ThreadService,
@@ -24,21 +28,10 @@ export class ThreadSelectionComponent implements OnInit {
   ) {
     this.userName$ = store
       .skip(1)
-      .map(this.mapStoreToUsername);
+      .map(mapStoreToUsername);
     this.unreadMessagesCounter$ = store
       .skip(1)
-      .map(this.mapStateToUnreadMessageCounter);
-  }
-
-  private mapStoreToUsername(state: ApplicationState): string {
-    return state.storeData.participants[state.uiState.userId].name;
-  }
-
-  private mapStateToUnreadMessageCounter(state: ApplicationState): number {
-    const currentUserId = state.uiState.userId;
-
-    return _.values<Thread>(state.storeData.threads)
-      .reduce((acc, thread) => acc + thread.participants[currentUserId], 0);
+      .map(mapStateToUnreadMessageCounter);
   }
 
   ngOnInit() {
