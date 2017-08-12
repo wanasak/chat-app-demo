@@ -32,6 +32,26 @@ export class ThreadSelectionComponent implements OnInit {
     this.unreadMessagesCounter$ = store
       .skip(1)
       .map(mapStateToUnreadMessageCounter);
+    this.threadSummaries$ = store.select(state => {
+
+      const threads = _.values<Thread>(state.storeData.threads);
+
+      return threads.map(thread => {
+
+        const names = _.keys(thread.participants)
+          .map(participantId => state.storeData.participants[participantId].name);
+
+        const lastMessageId = _.last(thread.messageIds);
+
+        return {
+          id: thread.id,
+          participantNames: _.join(names, ','),
+          lastMessageText: state.storeData.messages[lastMessageId].text
+        };
+
+      });
+
+    });
   }
 
   ngOnInit() {

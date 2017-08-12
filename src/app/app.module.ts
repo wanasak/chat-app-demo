@@ -14,6 +14,7 @@ import { ThreadListComponent } from './thread-list/thread-list.component';
 import { MessageListComponent } from './message-list/message-list.component';
 
 import * as _ from 'lodash';
+import { ThreadSummaryComponent } from './thread-summary/thread-summary.component';
 
 export function storeReducer(state: ApplicationState, action: Action): ApplicationState {
   switch (action.type) {
@@ -44,7 +45,8 @@ function handleLoadUserThreadsAction(state: ApplicationState, action: LoadUserTh
     ThreadSelectionComponent,
     MessageSectionComponent,
     ThreadListComponent,
-    MessageListComponent
+    MessageListComponent,
+    ThreadSummaryComponent
   ],
   imports: [
     BrowserModule,
