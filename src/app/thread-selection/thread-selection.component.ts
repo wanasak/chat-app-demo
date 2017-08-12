@@ -11,6 +11,7 @@ import 'rxjs/add/operator/skip';
 import * as _ from 'lodash';
 import { mapStoreToUsername } from './mapStoreToUsername';
 import { mapStateToUnreadMessageCounter } from './mapStateToUnreadMessageCounter';
+import { stateToThreadSummariesSelector } from './stateToThreadSummariesSelector';
 
 @Component({
   selector: 'app-thread-selection',
@@ -32,28 +33,7 @@ export class ThreadSelectionComponent implements OnInit {
     this.unreadMessagesCounter$ = store
       .skip(1)
       .map(mapStateToUnreadMessageCounter);
-    this.threadSummaries$ = store.select(state => {
-
-      const threads = _.values<Thread>(state.storeData.threads);
-
-      return threads.map(thread => {
-
-        const names = _.keys(thread.participants)
-          .map(participantId => state.storeData.participants[participantId].name);
-
-        const lastMessageId = _.last(thread.messageIds),
-          lastMessage = state.storeData.messages[lastMessageId];
-
-        return {
-          id: thread.id,
-          participantNames: _.join(names, ','),
-          lastMessageText: lastMessage.text,
-          timestamp: lastMessage.timestamp
-        };
-
-      });
-
-    });
+    this.threadSummaries$ = store.select(stateToThreadSummariesSelector);
   }
 
   ngOnInit() {
