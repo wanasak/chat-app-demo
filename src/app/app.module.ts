@@ -1,3 +1,5 @@
+import { StoreData, INITAL_STORE_DATA } from './store/store-data';
+import { UiState, INITIAL_UI_STATE } from './store/ui-state';
 import { ThreadEffectService } from './store/effects/thread-effect.service';
 import { HttpModule } from '@angular/http';
 import {
@@ -8,7 +10,7 @@ import {
   INITAL_APPLICATION_STATE,
   ApplicationState
 } from './store/application-state';
-import { StoreModule, Action } from '@ngrx/store';
+import { StoreModule, Action, combineReducers } from '@ngrx/store';
 import { ThreadService } from './services/thread.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -23,33 +25,17 @@ import { MessageListComponent } from './message-list/message-list.component';
 import * as _ from 'lodash';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { storeData } from './store/reducers/storeDataReducer';
+import { uiState } from './store/reducers/uiStateReducer';
 
 export function storeReducer(
   state: ApplicationState,
   action: Action
 ): ApplicationState {
-  switch (action.type) {
-    case USER_THREADS_LOADED_ACTION:
-      return handleLoadUserThreadsAction(state, <any>action);
-  }
-  return state;
-}
-
-function handleLoadUserThreadsAction(
-  state: ApplicationState,
-  action: UserThreadsLoadedAction
-): ApplicationState {
-  const userData = action.payload;
-
-  const newState: ApplicationState = Object.assign({}, state);
-
-  newState.storeData = {
-    participants: _.keyBy(action.payload.participants, 'id'),
-    messages: _.keyBy(action.payload.messages, 'id'),
-    threads: _.keyBy(action.payload.threads, 'id')
+  return {
+    uiState: uiState(state.uiState, action),
+    storeData: storeData(state.storeData, action)
   };
-
-  return newState;
 }
 
 @NgModule({
@@ -64,7 +50,7 @@ function handleLoadUserThreadsAction(
   imports: [
     BrowserModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE),
+    StoreModule.provideStore(combineReducers({uiState, storeData}), INITAL_APPLICATION_STATE),
     EffectsModule.run(ThreadEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
