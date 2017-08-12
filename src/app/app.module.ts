@@ -21,7 +21,6 @@ import { ThreadListComponent } from './thread-list/thread-list.component';
 import { MessageListComponent } from './message-list/message-list.component';
 
 import * as _ from 'lodash';
-import { ThreadSummaryComponent } from './thread-summary/thread-summary.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -60,8 +59,7 @@ function handleLoadUserThreadsAction(
     ThreadSelectionComponent,
     MessageSectionComponent,
     ThreadListComponent,
-    MessageListComponent,
-    ThreadSummaryComponent
+    MessageListComponent
   ],
   imports: [
     BrowserModule,
