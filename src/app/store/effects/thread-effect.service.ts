@@ -1,3 +1,5 @@
+import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import { LOAD_USER_THREADS_ACTION, UserThreadsLoadedAction } from './../actions';
 import { ThreadService } from './../../services/thread.service';
 import { Injectable } from '@angular/core';
@@ -10,7 +12,7 @@ export class ThreadEffectService {
 
   constructor(private actions$: Actions, private service: ThreadService ) { }
 
-  @Effect() userThreads = this.actions$
+  @Effect() userThreads: Observable<Action> = this.actions$
     .ofType(LOAD_USER_THREADS_ACTION)
     .switchMap(() => this.service.loadUserThreads())
     .map(allUserData => new UserThreadsLoadedAction(allUserData));

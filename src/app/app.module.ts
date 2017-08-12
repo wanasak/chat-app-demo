@@ -1,6 +1,6 @@
 import { ThreadEffectService } from './store/effects/thread-effect.service';
 import {HttpModule} from '@angular/http';
-import { LOAD_USER_THREADS_ACTION, UserThreadsLoadedAction } from './store/actions';
+import { UserThreadsLoadedAction, USER_THREADS_LOADED_ACTION } from './store/actions';
 import { INITAL_APPLICATION_STATE, ApplicationState } from './store/application-state';
 import { StoreModule, Action } from '@ngrx/store';
 import { ThreadService } from './services/thread.service';
@@ -20,7 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 export function storeReducer(state: ApplicationState, action: Action): ApplicationState {
   switch (action.type) {
-    case LOAD_USER_THREADS_ACTION:
+    case USER_THREADS_LOADED_ACTION:
       return handleLoadUserThreadsAction(state, <any>action);
   }
   return state;
