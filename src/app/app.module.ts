@@ -1,5 +1,6 @@
+import { ThreadEffectService } from './store/effects/thread-effect.service';
 import {HttpModule} from '@angular/http';
-import { LOAD_USER_THREADS_ACTION, LoadUserThreadAction } from './store/actions';
+import { LOAD_USER_THREADS_ACTION, UserThreadsLoadedAction } from './store/actions';
 import { INITAL_APPLICATION_STATE, ApplicationState } from './store/application-state';
 import { StoreModule, Action } from '@ngrx/store';
 import { ThreadService } from './services/thread.service';
@@ -15,6 +16,7 @@ import { MessageListComponent } from './message-list/message-list.component';
 
 import * as _ from 'lodash';
 import { ThreadSummaryComponent } from './thread-summary/thread-summary.component';
+import { EffectsModule } from '@ngrx/effects';
 
 export function storeReducer(state: ApplicationState, action: Action): ApplicationState {
   switch (action.type) {
@@ -24,7 +26,7 @@ export function storeReducer(state: ApplicationState, action: Action): Applicati
   return state;
 }
 
-function handleLoadUserThreadsAction(state: ApplicationState, action: LoadUserThreadAction): ApplicationState {
+function handleLoadUserThreadsAction(state: ApplicationState, action: UserThreadsLoadedAction): ApplicationState {
   const userData = action.payload;
 
   const newState: ApplicationState = Object.assign({}, state);
@@ -51,7 +53,8 @@ function handleLoadUserThreadsAction(state: ApplicationState, action: LoadUserTh
   imports: [
     BrowserModule,
     HttpModule,
-    StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE)
+    StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE),
+    EffectsModule.run(ThreadEffectService)
   ],
   providers: [ThreadService],
   bootstrap: [AppComponent]
