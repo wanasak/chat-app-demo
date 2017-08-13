@@ -18,7 +18,7 @@ import { stateToThreadSummariesSelector } from './stateToThreadSummariesSelector
   templateUrl: './thread-section.component.html',
   styleUrls: ['./thread-section.component.css']
 })
-export class ThreadSectionComponent implements OnInit {
+export class ThreadSectionComponent {
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
   threadSummaries$: Observable<ThreadSummaryVM[]>;
@@ -35,10 +35,6 @@ export class ThreadSectionComponent implements OnInit {
       .map(unreadMessageCounterSelector);
     this.threadSummaries$ = store.select(stateToThreadSummariesSelector);
     this.currentThreadId$ = store.select(state => state.uiState.currentThreadId);
-  }
-
-  ngOnInit() {
-    this.store.dispatch(new LoadUserThreadsAction());
   }
 
   onThreadSelected(threadId: number) {

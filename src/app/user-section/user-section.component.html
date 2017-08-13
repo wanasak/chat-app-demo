@@ -1,3 +1,11 @@
-<p>
-  user-section works!
-</p>
+<div>
+  <span>
+    Select:
+    <select (change)="onSelectUser($event.target.value)">
+      <option></option>
+      <option value="1">Alice</option>
+      <option value="2">Bob</option>
+      <option value="3">Chuck</option>
+    </select>
+  </span>
+</div>

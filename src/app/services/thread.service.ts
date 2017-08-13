@@ -11,8 +11,8 @@ export class ThreadService {
 
   constructor(private http: Http) { }
 
-  loadUserThreads(): Observable<AllUserData> {
-    return this.http.get('/api/threads', CommonHttpHeaders(1))
+  loadUserThreads(userId: number): Observable<AllUserData> {
+    return this.http.get('/api/threads', CommonHttpHeaders(userId))
       .map(res => res.json());
   }
 

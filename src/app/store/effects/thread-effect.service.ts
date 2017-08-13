@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { LOAD_USER_THREADS_ACTION, UserThreadsLoadedAction } from './../actions';
+import {
+  LOAD_USER_THREADS_ACTION,
+  UserThreadsLoadedAction,
+  SELECT_USER_ACTION,
+  LoadUserThreadsAction
+} from './../actions';
 import { ThreadService } from './../../services/thread.service';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
@@ -14,7 +19,11 @@ export class ThreadEffectService {
 
   @Effect() userThreads: Observable<Action> = this.actions$
     .ofType(LOAD_USER_THREADS_ACTION)
-    .switchMap(() => this.service.loadUserThreads())
+    .switchMap(action => this.service.loadUserThreads(action.payload))
     .map(allUserData => new UserThreadsLoadedAction(allUserData));
+
+  @Effect() userSelected: Observable<Action> = this.actions$
+    .ofType(SELECT_USER_ACTION)
+    .map(action => new LoadUserThreadsAction(action.payload));
 
 }

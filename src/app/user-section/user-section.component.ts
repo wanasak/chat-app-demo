@@ -1,4 +1,7 @@
+import { ApplicationState } from './../store/application-state';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
+import { SelecteUserAction } from '../store/actions';
 
 @Component({
   selector: 'app-user-section',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserSectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
+  }
+
+  onSelectUser(userId: number) {
+    this.store.dispatch(new SelecteUserAction(userId));
   }
 
 }
