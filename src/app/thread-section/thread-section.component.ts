@@ -22,6 +22,7 @@ export class ThreadSectionComponent implements OnInit {
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
   threadSummaries$: Observable<ThreadSummaryVM[]>;
+  currentThreadId$: Observable<number>;
 
   constructor(
     private store: Store<ApplicationState>
@@ -33,6 +34,7 @@ export class ThreadSectionComponent implements OnInit {
       .skip(1)
       .map(unreadMessageCounterSelector);
     this.threadSummaries$ = store.select(stateToThreadSummariesSelector);
+    this.currentThreadId$ = store.select(state => state.uiState.currentThreadId);
   }
 
   ngOnInit() {

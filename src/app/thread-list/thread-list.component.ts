@@ -9,6 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ThreadListComponent implements OnInit {
 
   @Input() threads: ThreadSummaryVM[];
+  @Input() currentThreadId: number;
   @Output() threadSelected = new EventEmitter<number>();
 
   constructor() { }
