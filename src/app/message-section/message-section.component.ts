@@ -1,4 +1,10 @@
+import { MessageVM } from './message.vm';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from './../store/application-state';
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
+import { messageParticipantNamesSelector } from './messageParticipantNamesSelector';
+import { messagesSelector } from './messageSelector';
 
 @Component({
   selector: 'app-message-section',
@@ -7,7 +13,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessageSectionComponent implements OnInit {
 
-  constructor() { }
+  participantNames$: Observable<string>;
+  messages$: Observable<MessageVM[]>;
+
+  constructor(private store: Store<ApplicationState>) {
+    this.participantNames$ = store.select(messageParticipantNamesSelector);
+    this.messages$ = store.select(messagesSelector);
+  }
 
   ngOnInit() {
   }
