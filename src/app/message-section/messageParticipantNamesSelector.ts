@@ -1,6 +1,7 @@
 import { ApplicationState } from './../store/application-state';
 
 import * as _ from 'lodash';
+import { buildThreadParticipantsList } from '../shared/buildThreadParticipantsList';
 
 export function messageParticipantNamesSelector(state: ApplicationState): string {
 
@@ -12,5 +13,5 @@ export function messageParticipantNamesSelector(state: ApplicationState): string
 
     const currentThread = state.storeData.threads[currentThreadId];
 
-    return
+    return buildThreadParticipantsList(state, currentThread);
 }
