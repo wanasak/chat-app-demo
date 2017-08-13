@@ -1,4 +1,4 @@
-import { ThreadSummaryVM } from './../thread-selection/thread-summary.vm';
+import { ThreadSummaryVM } from './../thread-section/thread-summary.vm';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({

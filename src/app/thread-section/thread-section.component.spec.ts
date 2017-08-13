@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThreadSelectionComponent } from './thread-selection.component';
+import { ThreadSectionComponent } from './thread-section.component';
 
 describe('ThreadSelectionComponent', () => {
-  let component: ThreadSelectionComponent;
-  let fixture: ComponentFixture<ThreadSelectionComponent>;
+  let component: ThreadSectionComponent;
+  let fixture: ComponentFixture<ThreadSectionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ThreadSelectionComponent ]
+      declarations: [ ThreadSectionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThreadSelectionComponent);
+    fixture = TestBed.createComponent(ThreadSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -14,11 +14,11 @@ import { unreadMessageCounterSelector } from './unreadMessageCounterSelector';
 import { stateToThreadSummariesSelector } from './stateToThreadSummariesSelector';
 
 @Component({
-  selector: 'app-thread-selection',
-  templateUrl: './thread-selection.component.html',
-  styleUrls: ['./thread-selection.component.css']
+  selector: 'app-thread-section',
+  templateUrl: './thread-section.component.html',
+  styleUrls: ['./thread-section.component.css']
 })
-export class ThreadSelectionComponent implements OnInit {
+export class ThreadSectionComponent implements OnInit {
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
   threadSummaries$: Observable<ThreadSummaryVM[]>;
