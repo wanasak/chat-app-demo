@@ -1,8 +1,8 @@
-import { findThreadById } from '../persistence/findThreadById';
-import { dbMessages, dbMessagesQueuePerUser } from './../db-data';
-import { Message } from './../../../shared/model/message';
 import { Application } from 'express';
 import * as _ from 'lodash';
+import { Message } from '../../../shared/model/message';
+import { dbMessages, dbMessagesQueuePerUser } from '../db-data';
+import { findThreadById } from '../persistence/findThreadById';
 
 let messageIdCounter = 20;
 
@@ -13,7 +13,7 @@ export function apiSaveNewMessage(app: Application) {
     // tslint:disable-next-line:radix
     const threadId = parseInt(req.params.id),
       // tslint:disable-next-line:radix
-      participantId = parseInt(req.headers['userId']);
+      participantId = parseInt(req.headers['userid']);
 
     const message: Message = {
       id: messageIdCounter++,
@@ -23,6 +23,8 @@ export function apiSaveNewMessage(app: Application) {
       participantId
     };
 
+    // save the new message, it's
+    // already linked to a thread
     dbMessages[message.id] = message;
 
     const thread = findThreadById(threadId);
@@ -33,9 +35,10 @@ export function apiSaveNewMessage(app: Application) {
       id => parseInt(id) !== participantId
     );
 
-    otherParticipantIds.forEach(id => {
-        thread.participants[id] += 1;
-        dbMessagesQueuePerUser[participantId].push(message.id);
+    // tslint:disable-next-line:no-shadowed-variable
+    otherParticipantIds.forEach(participantId => {
+      thread.participants[participantId] += 1;
+      dbMessagesQueuePerUser[participantId].push(message.id);
     });
 
     thread.participants[participantId] = 0;
