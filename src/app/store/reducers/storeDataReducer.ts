@@ -30,10 +30,6 @@ function handleLoadUserThreadsAction(
   state: StoreData,
   action: UserThreadsLoadedAction
 ): StoreData {
-  const userData = action.payload;
-
-  const newState: StoreData = Object.assign({}, state);
-
   return {
     participants: _.keyBy(action.payload.participants, 'id'),
     messages: _.keyBy(action.payload.messages, 'id'),
@@ -41,12 +37,13 @@ function handleLoadUserThreadsAction(
   };
 }
 
-function handleSendNewMessageAction(state: StoreData, action: SendNewMessageAction): StoreData {
-  // Object.assign does not do deep copy
-  // const newState: StoreData = Object.assign({}, state);
-  const newState: StoreData = _.cloneDeep(state);
+function handleSendNewMessageAction(
+  state: StoreData,
+  action: SendNewMessageAction
+) {
+  const newStoreState = _.cloneDeep(state);
 
-  const currentThread = newState.threads[action.payload.threadId];
+  const currentThread = newStoreState.threads[action.payload.threadId];
 
   const newMessage: Message = {
     text: action.payload.text,
@@ -58,8 +55,7 @@ function handleSendNewMessageAction(state: StoreData, action: SendNewMessageActi
 
   currentThread.messageIds.push(newMessage.id);
 
-  newState.messages[newMessage.id] = newMessage;
+  newStoreState.messages[newMessage.id] = newMessage;
 
-  return newState;
+  return newStoreState;
 }
-

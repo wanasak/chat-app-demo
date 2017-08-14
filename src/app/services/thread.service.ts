@@ -1,3 +1,4 @@
+import { SendNewMessageActionPayload } from './../store/actions';
 import { AllUserData } from './../../../shared/to/all-user-data';
 import {Http} from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -14,6 +15,12 @@ export class ThreadService {
   loadUserThreads(userId: number): Observable<AllUserData> {
     return this.http.get('/api/threads', CommonHttpHeaders(userId))
       .map(res => res.json());
+  }
+
+  saveNewMessage(payload: SendNewMessageActionPayload): Observable<any> {
+    return this.http.post(`/api/threads/${payload.threadId}`,
+      JSON.stringify({ text: payload.text }),
+      CommonHttpHeaders(payload.participantId));
   }
 
 }
