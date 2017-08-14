@@ -19,20 +19,15 @@ import { stateToThreadSummariesSelector } from './stateToThreadSummariesSelector
   styleUrls: ['./thread-section.component.css']
 })
 export class ThreadSectionComponent {
+
   userName$: Observable<string>;
   unreadMessagesCounter$: Observable<number>;
   threadSummaries$: Observable<ThreadSummaryVM[]>;
   currentThreadId$: Observable<number>;
 
-  constructor(
-    private store: Store<ApplicationState>
-  ) {
-    this.userName$ = store
-      .skip(1)
-      .map(userNameSelector);
-    this.unreadMessagesCounter$ = store
-      .skip(1)
-      .map(unreadMessageCounterSelector);
+  constructor(private store: Store<ApplicationState>) {
+    this.userName$ = store.select(userNameSelector);
+    this.unreadMessagesCounter$ = store.select(unreadMessageCounterSelector);
     this.threadSummaries$ = store.select(stateToThreadSummariesSelector);
     this.currentThreadId$ = store.select(state => state.uiState.currentThreadId);
   }

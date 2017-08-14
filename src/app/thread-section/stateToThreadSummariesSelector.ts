@@ -1,3 +1,5 @@
+import {buildThreadParticipantsList} from '../shared/buildThreadParticipantsList';
+import { ThreadSummaryVM } from './thread-summary.vm';
 import { Thread } from './../../../shared/model/thread';
 import { ApplicationState } from './../store/application-state';
 
@@ -5,20 +7,20 @@ import * as _ from 'lodash';
 
 export function stateToThreadSummariesSelector(state: ApplicationState) {
   const threads = _.values<Thread>(state.storeData.threads);
+  return threads.map(_.partial(mapThreadToThreadSummary, state));
+}
 
-  return threads.map(thread => {
-    const names = _.keys(thread.participants).map(
-      participantId => state.storeData.participants[participantId].name
-    );
+function mapThreadToThreadSummary(
+  state: ApplicationState,
+  thread: Thread
+): ThreadSummaryVM {
+  const lastMessageId = _.last(thread.messageIds),
+    lastMessage = state.storeData.messages[lastMessageId];
 
-    const lastMessageId = _.last(thread.messageIds),
-      lastMessage = state.storeData.messages[lastMessageId];
-
-    return {
-      id: thread.id,
-      participantNames: _.join(names, ','),
-      lastMessageText: lastMessage.text,
-      timestamp: lastMessage.timestamp
-    };
-  });
+  return {
+    id: thread.id,
+    participantNames: buildThreadParticipantsList(state, thread),
+    lastMessageText: lastMessage.text,
+    timestamp: lastMessage.timestamp
+  };
 }
