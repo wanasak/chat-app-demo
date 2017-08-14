@@ -1,3 +1,4 @@
+import { AddNewMessageEffectService } from './store/effects/add-new-message-effect.service';
 import { StoreData, INITAL_STORE_DATA } from './store/store-data';
 import { UiState, INITIAL_UI_STATE } from './store/ui-state';
 import { ThreadEffectService } from './store/effects/thread-effect.service';
@@ -28,14 +29,25 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeData } from './store/reducers/storeDataReducer';
 import { uiState } from './store/reducers/uiStateReducer';
 
-export function storeReducer(
-  state: ApplicationState,
-  action: Action
-): ApplicationState {
-  return {
-    uiState: uiState(state.uiState, action),
-    storeData: storeData(state.storeData, action)
-  };
+// export function storeReducer(
+//   state: ApplicationState,
+//   action: Action
+// ): ApplicationState {
+//   return {
+//     uiState: uiState(state.uiState, action),
+//     storeData: storeData(state.storeData, action)
+//   };
+// }
+
+const reducers = {
+  uiState,
+  storeData
+};
+
+const combinedReducer = combineReducers(reducers);
+
+export function storeReducer(state: ApplicationState, action: Action) {
+  return combinedReducer(state, action);
 }
 
 @NgModule({
@@ -50,8 +62,9 @@ export function storeReducer(
   imports: [
     BrowserModule,
     HttpModule,
-    StoreModule.provideStore(combineReducers({uiState, storeData}), INITAL_APPLICATION_STATE),
+    StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE),
     EffectsModule.run(ThreadEffectService),
+    EffectsModule.run(AddNewMessageEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [ThreadService],
