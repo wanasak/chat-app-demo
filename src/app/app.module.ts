@@ -1,3 +1,4 @@
+import { RefreshMessageService } from './store/effects/refresh-message.service';
 import { AddNewMessageEffectService } from './store/effects/add-new-message-effect.service';
 import { StoreData, INITAL_STORE_DATA } from './store/store-data';
 import { UiState, INITIAL_UI_STATE } from './store/ui-state';
@@ -65,6 +66,7 @@ export function storeReducer(state: ApplicationState, action: Action) {
     StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE),
     EffectsModule.run(ThreadEffectService),
     EffectsModule.run(AddNewMessageEffectService),
+    EffectsModule.run(RefreshMessageService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [ThreadService],

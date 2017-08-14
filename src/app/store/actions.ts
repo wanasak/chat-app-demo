@@ -1,3 +1,4 @@
+import { Message } from './../../../shared/model/message';
 import { AllUserData } from './../../../shared/to/all-user-data';
 import { Action } from '@ngrx/store';
 
@@ -6,6 +7,7 @@ export const USER_THREADS_LOADED_ACTION = 'USER_THREADS_LOADED_ACTION';
 export const THREAD_SELECTED_ACTION = 'THREAD_SELECTED_ACTION';
 export const SELECT_USER_ACTION = 'SELECT_USER_ACTION';
 export const SEND_NEW_MESSAGE_ACTION = 'SEND_NEW_MESSAGE_ACTION';
+export const RECEIVED_MESSAGE_ACTION = 'REFRESH_MESSAGE_ACTION';
 
 export class LoadUserThreadsAction implements Action {
   readonly type = LOAD_USER_THREADS_ACTION;
@@ -36,4 +38,9 @@ export class SendNewMessageAction implements Action {
   readonly type = SEND_NEW_MESSAGE_ACTION;
 
   constructor(public payload: SendNewMessageActionPayload) {}
+}
+export class ReceivedMessageAction implements Action {
+  readonly type = RECEIVED_MESSAGE_ACTION;
+
+  constructor(public payload: Message[] = []) {}
 }
