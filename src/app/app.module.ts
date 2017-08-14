@@ -30,6 +30,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeData } from './store/reducers/storeDataReducer';
 import { uiState } from './store/reducers/uiStateReducer';
+import { MessageErrorComponent } from './message-error/message-error.component';
 
 // export function storeReducer(
 //   state: ApplicationState,
@@ -59,7 +60,8 @@ export function storeReducer(state: ApplicationState, action: Action) {
     ThreadSectionComponent,
     MessageSectionComponent,
     ThreadListComponent,
-    MessageListComponent
+    MessageListComponent,
+    MessageErrorComponent
   ],
   imports: [
     BrowserModule,
