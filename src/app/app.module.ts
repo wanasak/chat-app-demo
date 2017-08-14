@@ -1,3 +1,4 @@
+import { MarkMessagesAsReadEffectService } from './store/effects/mark-messages-as-read-effect.service';
 import { RefreshMessageService } from './store/effects/refresh-message.service';
 import { AddNewMessageEffectService } from './store/effects/add-new-message-effect.service';
 import { StoreData, INITAL_STORE_DATA } from './store/store-data';
@@ -67,6 +68,7 @@ export function storeReducer(state: ApplicationState, action: Action) {
     EffectsModule.run(ThreadEffectService),
     EffectsModule.run(AddNewMessageEffectService),
     EffectsModule.run(RefreshMessageService),
+    EffectsModule.run(MarkMessagesAsReadEffectService),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [ThreadService],

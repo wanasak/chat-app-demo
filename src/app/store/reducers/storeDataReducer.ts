@@ -5,7 +5,9 @@ import {
   SendNewMessageAction,
   SEND_NEW_MESSAGE_ACTION,
   RECEIVED_MESSAGE_ACTION,
-  ReceivedMessageAction
+  ReceivedMessageAction,
+  THREAD_SELECTED_ACTION,
+  ThreadSelectedAction
 } from './../actions';
 import { Action } from '@ngrx/store';
 import { StoreData, INITAL_STORE_DATA } from './../store-data';
@@ -25,6 +27,8 @@ export function storeData(
       return handleSendNewMessageAction(state, <any>action);
     case RECEIVED_MESSAGE_ACTION:
       return handleReceivedMessageActionn(state, <any>action);
+    case THREAD_SELECTED_ACTION:
+      return handleThreadSelectedAction(state, <any>action);
     default:
       return state;
   }
@@ -79,5 +83,13 @@ function handleReceivedMessageActionn(state: StoreData, action: ReceivedMessageA
     }
   });
 
+  return newState;
+}
+
+function handleThreadSelectedAction(state: StoreData, action: ThreadSelectedAction): StoreData {
+  const newState = _.cloneDeep(state),
+    currentThreadId = newState.threads[action.payload.selectedThreadId],
+    currentUserId = action.payload.currentUserId;
+  currentThreadId.participants[currentUserId] = 0;
   return newState;
 }

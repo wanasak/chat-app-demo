@@ -7,7 +7,7 @@
 
     <app-thread-list 
       [threads]="threadSummaries$ | async"
-      [currentThreadId]="currentThreadId$ | async"
+      [currentThreadId]="uiState?.currentThreadId"
       (threadSelected)="onThreadSelected($event)"></app-thread-list>
 
 </div>
