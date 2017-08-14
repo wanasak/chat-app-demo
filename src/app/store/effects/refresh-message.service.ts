@@ -15,13 +15,18 @@ import 'rxjs/add/operator/filter';
 @Injectable()
 export class RefreshMessageService {
 
-  constructor(private service: ThreadService, private state: Store<ApplicationState>) { }
+  constructor(private service: ThreadService, private store: Store<ApplicationState>) { }
 
   @Effect() newMessages$ = Observable.interval(3000)
-    .withLatestFrom(this.state.select('uiState'))
+    .withLatestFrom(this.store.select('uiState'))
     .map(([any, uiState]) => uiState)
     .filter((uiState: any) => uiState.userId)
     .switchMap(uiState => this.service.loadNewMessagesForUser(uiState.userId))
-    .map(messages => new ReceivedMessageAction(messages));
+    .withLatestFrom(this.store.select('uiState'))
+    .map(([unreadMessages, uiState]: [any, any]) =>  new ReceivedMessageAction({
+        unreadMessages,
+        currentThreadId: uiState.currentThreadId,
+        currentUserId: uiState.userId
+    }));
 
 }

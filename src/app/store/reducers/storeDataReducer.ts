@@ -66,11 +66,17 @@ function handleSendNewMessageAction(
 
 function handleReceivedMessageActionn(state: StoreData, action: ReceivedMessageAction): StoreData {
   const newState = _.cloneDeep(state);
-  const receivedMessage = action.payload;
+  const receivedMessage = action.payload.unreadMessages,
+  currentThreadId = action.payload.currentThreadId,
+  currentUserId = action.payload.currentUserId;
 
   receivedMessage.forEach(msg => {
     newState.messages[msg.id] = msg;
     newState.threads[msg.threadId].messageIds.push(msg.id);
+
+    if (msg.threadId !== currentThreadId) {
+      newState.threads[msg.threadId].participants[currentUserId] += 1;
+    }
   });
 
   return newState;

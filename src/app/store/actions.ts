@@ -29,6 +29,7 @@ export class SelecteUserAction implements Action {
 
   constructor(public payload: number) {}
 }
+
 export interface SendNewMessageActionPayload {
   text: string;
   threadId: number;
@@ -39,8 +40,14 @@ export class SendNewMessageAction implements Action {
 
   constructor(public payload: SendNewMessageActionPayload) {}
 }
+
+export interface ReceivedMessageActionPayload {
+  unreadMessages: Message[];
+  currentThreadId: number;
+  currentUserId: number;
+}
 export class ReceivedMessageAction implements Action {
   readonly type = RECEIVED_MESSAGE_ACTION;
 
-  constructor(public payload: Message[] = []) {}
+  constructor(public payload: ReceivedMessageActionPayload) {}
 }
