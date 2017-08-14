@@ -28,14 +28,14 @@ export class MessageListComponent implements OnChanges {
       const previousMessages = changes['messages'].previousValue;
       const newMessages = changes['messages'].currentValue;
 
-      if (newMessages.length > previousMessages.length) {
+      if (previousMessages && newMessages.length > previousMessages.length) {
         setTimeout(() => this.scrolllLastMessageIntoView());
       }
     }
   }
 
   private scrolllLastMessageIntoView() {
-    const items = this.list.nativeElement.querySelectorAll('li');
+    const items = (this.list.nativeElement as HTMLElement).querySelectorAll('li');
     const lastItem: any = _.last(items);
     if (lastItem) {
       lastItem.scrollIntoView();
