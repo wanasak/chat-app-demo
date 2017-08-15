@@ -1,3 +1,5 @@
+import { routes } from './routes';
+import {RouterModule} from '@angular/router';
 import {storeFreeze} from 'ngrx-store-freeze';
 import { MarkMessagesAsReadEffectService } from './store/effects/mark-messages-as-read-effect.service';
 import { RefreshMessageService } from './store/effects/refresh-message.service';
@@ -33,20 +35,14 @@ import { storeData } from './store/reducers/storeDataReducer';
 import { uiState } from './store/reducers/uiStateReducer';
 import { MessageErrorComponent } from './message-error/message-error.component';
 import { compose } from '@ngrx/core';
-
-// export function storeReducer(
-//   state: ApplicationState,
-//   action: Action
-// ): ApplicationState {
-//   return {
-//     uiState: uiState(state.uiState, action),
-//     storeData: storeData(state.storeData, action)
-//   };
-// }
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+import { routerReducer, RouterStoreModule } from "@ngrx/router-store";
 
 const reducers = {
   uiState,
-  storeData
+  storeData,
+  router: routerReducer
 };
 
 const combinedReducer = compose(storeFreeze, combineReducers)(reducers);
@@ -63,12 +59,16 @@ export function storeReducer(state: ApplicationState, action: Action) {
     MessageSectionComponent,
     ThreadListComponent,
     MessageListComponent,
-    MessageErrorComponent
+    MessageErrorComponent,
+    AboutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    RouterModule.forRoot(routes, { useHash: true }),
     StoreModule.provideStore(storeReducer, INITAL_APPLICATION_STATE),
+    RouterStoreModule.connectRouter(),
     EffectsModule.run(ThreadEffectService),
     EffectsModule.run(AddNewMessageEffectService),
     EffectsModule.run(RefreshMessageService),
