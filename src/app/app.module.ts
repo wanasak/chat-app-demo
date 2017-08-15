@@ -1,3 +1,4 @@
+import {storeFreeze} from 'ngrx-store-freeze';
 import { MarkMessagesAsReadEffectService } from './store/effects/mark-messages-as-read-effect.service';
 import { RefreshMessageService } from './store/effects/refresh-message.service';
 import { AddNewMessageEffectService } from './store/effects/add-new-message-effect.service';
@@ -31,6 +32,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeData } from './store/reducers/storeDataReducer';
 import { uiState } from './store/reducers/uiStateReducer';
 import { MessageErrorComponent } from './message-error/message-error.component';
+import { compose } from '@ngrx/core';
 
 // export function storeReducer(
 //   state: ApplicationState,
@@ -47,7 +49,7 @@ const reducers = {
   storeData
 };
 
-const combinedReducer = combineReducers(reducers);
+const combinedReducer = compose(storeFreeze, combineReducers)(reducers);
 
 export function storeReducer(state: ApplicationState, action: Action) {
   return combinedReducer(state, action);
