@@ -5,7 +5,8 @@ import {
   ElementRef,
   ViewChild,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -13,7 +14,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-message-list',
   templateUrl: './message-list.component.html',
-  styleUrls: ['./message-list.component.css']
+  styleUrls: ['./message-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageListComponent implements OnChanges {
 
