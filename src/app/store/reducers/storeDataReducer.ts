@@ -55,7 +55,10 @@ function handleSendNewMessageAction(
     messages: Object.assign({}, state.messages)
   };
 
-  newStoreState.threads[action.payload.threadId] = Object.assign({}, state.threads[action.payload.threadId]);
+  newStoreState.threads[action.payload.threadId] = Object.assign(
+    {},
+    state.threads[action.payload.threadId]
+  );
 
   const currentThread = newStoreState.threads[action.payload.threadId];
 
@@ -67,7 +70,7 @@ function handleSendNewMessageAction(
     id: uuid()
   };
 
-  // currentThread.messageIds.push(newMessage.id);
+  // Create a shallow clone
   currentThread.messageIds = currentThread.messageIds.slice(0);
   currentThread.messageIds.push(newMessage.id);
 
@@ -76,28 +79,59 @@ function handleSendNewMessageAction(
   return newStoreState;
 }
 
-function handleReceivedMessageActionn(state: StoreData, action: ReceivedMessageAction): StoreData {
-  const newState = _.cloneDeep(state);
+function handleReceivedMessageActionn(
+  state: StoreData,
+  action: ReceivedMessageAction
+): StoreData {
+  const newState: StoreData = {
+    participants: state.participants,
+    threads: _.clone(state.threads),
+    messages: _.clone(state.messages)
+  };
   const receivedMessage = action.payload.unreadMessages,
-  currentThreadId = action.payload.currentThreadId,
-  currentUserId = action.payload.currentUserId;
+    currentThreadId = action.payload.currentThreadId,
+    currentUserId = action.payload.currentUserId;
 
   receivedMessage.forEach(msg => {
     newState.messages[msg.id] = msg;
-    newState.threads[msg.threadId].messageIds.push(msg.id);
+
+    // Create a shallow clone
+    newState.threads[msg.threadId] = _.clone(state.threads[msg.threadId]);
+
+    const currentThread = newState.threads[msg.threadId];
+
+    currentThread.messageIds = _.clone(currentThread.messageIds);
+    currentThread.messageIds.push(msg.id);
 
     if (msg.threadId !== currentThreadId) {
-      newState.threads[msg.threadId].participants[currentUserId] += 1;
+      currentThread.participants = _.clone(
+        newState.threads[msg.threadId].participants
+      );
+      currentThread.participants[currentUserId] += 1;
     }
   });
 
   return newState;
 }
 
-function handleThreadSelectedAction(state: StoreData, action: ThreadSelectedAction): StoreData {
-  const newState = _.cloneDeep(state),
-    currentThreadId = newState.threads[action.payload.selectedThreadId],
-    currentUserId = action.payload.currentUserId;
-  currentThreadId.participants[currentUserId] = 0;
-  return newState;
+function handleThreadSelectedAction(
+  state: StoreData,
+  action: ThreadSelectedAction
+): StoreData {
+  const newStoreState: StoreData = {
+    participants: Object.assign({}, state.participants),
+    threads: Object.assign({}, state.threads),
+    messages: Object.assign({}, state.messages)
+  };
+
+  newStoreState.threads[action.payload.selectedThreadId] = Object.assign(
+    {},
+    state.threads[action.payload.selectedThreadId]
+  );
+
+  const currentThread = newStoreState.threads[action.payload.selectedThreadId];
+  currentThread.participants = Object.assign({}, currentThread.participants);
+  currentThread.participants[action.payload.currentUserId] = 0;
+
+  return newStoreState;
 }
