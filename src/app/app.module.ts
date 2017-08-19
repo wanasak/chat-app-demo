@@ -37,7 +37,8 @@ import { MessageErrorComponent } from './message-error/message-error.component';
 import { compose } from '@ngrx/core';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
-import { routerReducer, RouterStoreModule } from "@ngrx/router-store";
+import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
+import { MessageComponent } from './message/message.component';
 
 const reducers = {
   uiState,
@@ -61,7 +62,8 @@ export function storeReducer(state: ApplicationState, action: Action) {
     MessageListComponent,
     MessageErrorComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
